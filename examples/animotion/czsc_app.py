@@ -12,7 +12,8 @@ sys.path.insert(0, '..')
 from flask import Flask, render_template
 from czsc import CZSC, home_path
 from czsc.data import TsDataCache
-
+import tushare as ts
+ts.set_token('e2f7ba464debf84181a2d060225f66de5f29ba2923df064af09febb0')
 
 dc = TsDataCache(home_path)
 app = Flask(__name__, static_folder="templates")

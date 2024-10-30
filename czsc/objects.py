@@ -41,6 +41,8 @@ class RawBar:
     high: float
     low: float
     vol: float
+    # jyn: vol和amount的区别是什么？
+    # amount = close x vol: vol 是成交量（单位：股），amount 是成交额（单位：元）
     amount: float
     cache: dict = field(default_factory=dict)  # cache 用户缓存，一个最常见的场景是缓存技术指标计算结果
 

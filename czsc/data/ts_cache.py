@@ -210,11 +210,11 @@ class TsDataCache:
         cache_path = self.api_path_map["pro_bar"]
         file_cache = os.path.join(cache_path, f"pro_bar_{ts_code}#{asset}_{self.sdt}_{freq}_{adj}.feather")
 
-        if not self.refresh and os.path.exists(file_cache):
+        if not self.refresh and os.path.exists(file_cache): # 走缓存
             kline = pd.read_feather(file_cache)
             if self.verbose:
                 print(f"pro_bar: read cache {file_cache}")
-        else:
+        else: # 不走缓存，从 tushare 下载
             start_date_ = (pd.to_datetime(self.sdt) - timedelta(days=1000)).strftime("%Y%m%d")
             kline = ts.pro_bar(
                 ts_code=ts_code, asset=asset, adj=adj, freq=freq, start_date=start_date_, end_date=self.edt

@@ -42,6 +42,7 @@ def remove_include(k1: NewBar, k2: NewBar, k3: RawBar):
     elif k1.high > k2.high:
         direction = Direction.Down
     else:
+        # jyn: 为什么k1和k2的hight相同就返回k3呢？
         k4 = NewBar(symbol=k3.symbol, id=k3.id, freq=k3.freq, dt=k3.dt, open=k3.open,
                     close=k3.close, high=k3.high, low=k3.low, vol=k3.vol, amount=k3.amount, elements=[k3])
         return False, k4
@@ -62,6 +63,7 @@ def remove_include(k1: NewBar, k2: NewBar, k3: RawBar):
         else:
             raise ValueError
 
+        # jyn: 有包含关系时为什么open/close直接用high/low?
         open_, close = (high, low) if k3.open > k3.close else (low, high)
         vol = k2.vol + k3.vol
         amount = k2.amount + k3.amount
@@ -197,8 +199,8 @@ class CZSC:
         self.bars_raw: List[RawBar] = []  # 原始K线序列
         self.bars_ubi: List[NewBar] = []  # 未完成笔的无包含K线序列
         self.bi_list: List[BI] = []
-        self.symbol = bars[0].symbol
-        self.freq = bars[0].freq
+        self.symbol = bars[0].symbol # jyn: 需要注意bars不能为空
+        self.freq = bars[0].freq # jyn: 需要注意bars不能为空
         self.get_signals = get_signals
         self.signals = None
         # cache 是信号计算过程的缓存容器，需要信号计算函数自行维护
@@ -263,7 +265,7 @@ class CZSC:
         if not self.bars_raw or bar.dt != self.bars_raw[-1].dt:
             self.bars_raw.append(bar)
             last_bars = [bar]
-        else:
+        else: # jyn: 什么时候会走到这里？
             # 当前 bar 是上一根 bar 的时间延伸
             self.bars_raw[-1] = bar
             last_bars = self.bars_ubi.pop(-1).raw_bars

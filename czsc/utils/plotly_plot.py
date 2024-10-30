@@ -101,6 +101,7 @@ class KlineChart:
         if 'text' not in kline.columns:
             kline['text'] = ""
 
+        # 绘图 API: https://plotly.com/python-api-reference/generated/plotly.graph_objects.Candlestick.html#plotly.graph_objects.Candlestick
         candle = go.Candlestick(x=kline['dt'], open=kline["open"], high=kline["high"], low=kline["low"],
                                 close=kline["close"], text=kline["text"], name=name, showlegend=True,
                                 increasing_line_color=self.color_red, decreasing_line_color=self.color_green,
